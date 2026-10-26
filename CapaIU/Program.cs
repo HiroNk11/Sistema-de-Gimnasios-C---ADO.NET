@@ -34,6 +34,8 @@ namespace CapaIU
                     causa="No se puede abrir la base configurada. Compruebe que DatabaseGym_Mejorado exista en esa instancia y que su usuario Windows tenga acceso.";
                 else if(sqlError.Number==18456)
                     causa="SQL Server rechazó el inicio de sesión de Windows. Revise los permisos en la instancia configurada.";
+                else if(sqlError.Number==201)
+                    causa="La conexión con SQL Server funciona, pero una operación no envió un parámetro requerido. Actualice la aplicación; si persiste, informe esta referencia.";
                 else if(sqlError.Number==208 || sqlError.Number==2812)
                     causa="La conexión funciona, pero faltan tablas o procedimientos. Aplique las migraciones sobre la base configurada.";
                 else

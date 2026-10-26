@@ -122,6 +122,7 @@ namespace CapaIU
             bit = new Bitacora();
             bit.id_usuario = SingletonSesion.Instancia.Usuario.idusuario;
             bit.actividad = detallebit;
+            bit.criticidad = "Baja";
             bit.fecha = DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year;
             bit.hora = DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
             bitbll.InsertarEvento(bit);

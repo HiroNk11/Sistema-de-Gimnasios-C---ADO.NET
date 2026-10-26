@@ -13,16 +13,21 @@ namespace CapaRepositorio
         AccesoRepository AR = new AccesoRepository();
         public string InsertarEvento(Bitacora bit)
         {
-            string mensaje = "";
+            return AR.Escribir("Grabar_Bitacora", CrearParametrosEvento(bit));
+        }
+
+        internal static SqlParameter[] CrearParametrosEvento(Bitacora bit)
+        {
+            if (bit == null) throw new ArgumentNullException(nameof(bit));
             SqlParameter[] parametros = new SqlParameter[6];
             parametros[0] = new SqlParameter("@Id_Usuario", bit.id_usuario);
-            parametros[1] = new SqlParameter("@Actividad", bit.actividad);
-            parametros[2] = new SqlParameter("@Criticidad", bit.criticidad);
-            parametros[3] = new SqlParameter("@Fecha", bit.fecha);
-            parametros[4] = new SqlParameter("@Hora", bit.hora);
+            parametros[1] = new SqlParameter("@Actividad", SqlDbType.NVarChar, 512) {Value=(object)bit.actividad ?? DBNull.Value};
+            // Value=null omite el parametro al ejecutar un procedimiento (SQL 201).
+            parametros[2] = new SqlParameter("@Criticidad", SqlDbType.NVarChar, 50) {Value=string.IsNullOrWhiteSpace(bit.criticidad) ? "Baja" : bit.criticidad};
+            parametros[3] = new SqlParameter("@Fecha", SqlDbType.NVarChar, 50) {Value=(object)bit.fecha ?? DBNull.Value};
+            parametros[4] = new SqlParameter("@Hora", SqlDbType.NVarChar, 50) {Value=(object)bit.hora ?? DBNull.Value};
             parametros[5] = new SqlParameter("@MomentoUtc", SqlDbType.DateTime2) {Value=DateTime.UtcNow};
-            mensaje = AR.Escribir("Grabar_Bitacora", parametros);
-            return mensaje;
+            return parametros;
         }
 
         public List<Detalle_Bitacora> Listar_Bitacora()

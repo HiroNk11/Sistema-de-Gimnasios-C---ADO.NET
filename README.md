@@ -75,6 +75,7 @@ powershell.exe -NoProfile -File .\Tests\ProbarPerfiles.ps1
 powershell.exe -NoProfile -File .\Tests\ProbarInterfaz.ps1
 powershell.exe -NoProfile -File .\Tests\ProbarPlanificacion.ps1
 powershell.exe -NoProfile -File .\Tests\ProbarPatrones.ps1
+powershell.exe -NoProfile -File .\Tests\ProbarBitacora.ps1
 ```
 
 Estas pruebas no certifican la instalación SQL ni la concurrencia entre dos puestos. LocalDB es local: para dos computadoras se necesita una base central y validar acceso, transacciones simultáneas y respaldo. El sistema continúa en evolución; la anulación de pagos y el despliegue compartido requieren definiciones adicionales.
