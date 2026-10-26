@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CapaAplicacion.PermisosBLL">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAAAABAAAAAAAEAAAAAAIAAQAAAAQAAAgAAEAEAAQE=</HashCode>
+      <FileName>PermisosBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.UsuarioBLL">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgQAAAACECAsAAQgQEggAIEAqgAAwAEBgAQAAIRAAA=</HashCode>
+      <FileName>UsuarioBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.TraductorBLL">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAgAAAAQAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>TraductorBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.EntrenamientoBLL">
+    <Position X="4" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAQEAAAAAAAAEAAAAAAKAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Negocio\EntrenamientoBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.EntrenadorBLL">
+    <Position X="6.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQAAAAAEAAAAAAAAEAAAAAAIAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Negocio\EntrenadorBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.Negocio.SocioBLL">
+    <Position X="2.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQAAKAAEAAAEAAAAEAAAQAAIAAAACAAAQCAAAYAAI=</HashCode>
+      <FileName>Negocio\SocioBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.Negocio.ClaseBLL">
+    <Position X="0.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IBAAGiEAAAABAAAIAgBAgAIAAIAAAABAAAAKgAAgAAA=</HashCode>
+      <FileName>Negocio\ClaseBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.BackupRestoreBLL">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BackupRestoreBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.BitacoraBLL">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAASAAAAAAAAAAAAAAAAAAAAAAAAIQAQAAAAAAAAAA=</HashCode>
+      <FileName>BitacoraBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaAplicacion.IdiomaBLL">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAABCACAAAAAABAAAAAEAAAQAAA=</HashCode>
+      <FileName>IdiomaBLL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

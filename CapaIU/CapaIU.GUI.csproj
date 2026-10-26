@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F420CC9F-C4D9-4FC1-A793-FA745B924349}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>CapaIU</RootNamespace>
+    <AssemblyName>Sistema Body Sport Demo</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>biceps_body_building_fitness_icon_224815.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.3\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime, Version=3.0.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NodaTime.3.0.0\lib\netstandard2.0\NodaTime.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime.Serialization.SystemTextJson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NodaTime.Serialization.SystemTextJson.1.0.0\lib\netstandard2.0\NodaTime.Serialization.SystemTextJson.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Json.7.0.0\lib\net462\System.Net.Http.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.7.0.0\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controles\ControlCorreo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ControlCorreo.Designer.cs">
+      <DependentUpon>ControlCorreo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ControlLetrasyNums.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ControlLetrasyNums.Designer.cs">
+      <DependentUpon>ControlLetrasyNums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ControlPassword.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ControlPassword.Designer.cs">
+      <DependentUpon>ControlPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ControlSoloLetras.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ControlSoloLetras.Designer.cs">
+      <DependentUpon>ControlSoloLetras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ControlSoloNumeros.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ControlSoloNumeros.Designer.cs">
+      <DependentUpon>ControlSoloNumeros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\control_combo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\control_combo.Designer.cs">
+      <DependentUpon>control_combo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\control_combo_idioma.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\control_combo_idioma.Designer.cs">
+      <DependentUpon>control_combo_idioma.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\FrmHistorialCambios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Negocio\FrmHistorialCambios.Designer.cs">
+      <DependentUpon>FrmHistorialCambios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\FrmVerDetalle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Negocio\FrmVerDetalle.Designer.cs">
+      <DependentUpon>FrmVerDetalle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Seguridad\FrmBackupRestore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seguridad\FrmBackupRestore.Designer.cs">
+      <DependentUpon>FrmBackupRestore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Seguridad\FrmBitacora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seguridad\FrmBitacora.Designer.cs">
+      <DependentUpon>FrmBitacora.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recuperación\FrmCambiarContraseña.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recuperación\FrmCambiarContraseña.Designer.cs">
+      <DependentUpon>FrmCambiarContraseña.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario\FrmGestiónUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Usuario\FrmGestiónUsuarios.Designer.cs">
+      <DependentUpon>FrmGestiónUsuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMdiPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMdiPrincipal.Designer.cs">
+      <DependentUpon>FrmMdiPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLogin.designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recuperación\FrmRecuperarContraseña.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recuperación\FrmRecuperarContraseña.Designer.cs">
+      <DependentUpon>FrmRecuperarContraseña.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\MiControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\MiControl.Designer.cs">
+      <DependentUpon>MiControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recuperación\FrmRecuperarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recuperación\FrmRecuperarUsuario.Designer.cs">
+      <DependentUpon>FrmRecuperarUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\ABM\FrmEntrenamiento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Negocio\ABM\FrmEntrenamiento.Designer.cs">
+      <DependentUpon>FrmEntrenamiento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\ABM\FrmSocio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Negocio\ABM\FrmSocio.Designer.cs">
+      <DependentUpon>FrmSocio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\FrmVerClasesSocio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Negocio\FrmVerClasesSocio.Designer.cs">
+      <DependentUpon>FrmVerClasesSocio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seguridad\FrmGestionarIdioma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seguridad\FrmGestionarIdioma.Designer.cs">
+      <DependentUpon>FrmGestionarIdioma.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Seguridad\FrmPatentesYFamilias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seguridad\FrmPatentesYFamilias.Designer.cs">
+      <DependentUpon>FrmPatentesYFamilias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Seguridad\FrmSegUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seguridad\FrmSegUsuarios.Designer.cs">
+      <DependentUpon>FrmSegUsuarios.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Controles\ControlCorreo.resx">
+      <DependentUpon>ControlCorreo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ControlSoloLetras.resx">
+      <DependentUpon>ControlSoloLetras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\control_combo.resx">
+      <DependentUpon>control_combo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\control_combo_idioma.resx">
+      <DependentUpon>control_combo_idioma.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Negocio\FrmHistorialCambios.resx">
+      <DependentUpon>FrmHistorialCambios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Negocio\FrmVerDetalle.resx">
+      <DependentUpon>FrmVerDetalle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seguridad\FrmBackupRestore.resx">
+      <DependentUpon>FrmBackupRestore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seguridad\FrmBitacora.resx">
+      <DependentUpon>FrmBitacora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recuperación\FrmCambiarContraseña.resx">
+      <DependentUpon>FrmCambiarContraseña.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Usuario\FrmGestiónUsuarios.resx">
+      <DependentUpon>FrmGestiónUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMdiPrincipal.resx">
+      <DependentUpon>FrmMdiPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recuperación\FrmRecuperarContraseña.resx">
+      <DependentUpon>FrmRecuperarContraseña.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\MiControl.resx">
+      <DependentUpon>MiControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recuperación\FrmRecuperarUsuario.resx">
+      <DependentUpon>FrmRecuperarUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Negocio\ABM\FrmEntrenamiento.resx">
+      <DependentUpon>FrmEntrenamiento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Negocio\ABM\FrmSocio.resx">
+      <DependentUpon>FrmSocio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Negocio\FrmVerClasesSocio.resx">
+      <DependentUpon>FrmVerClasesSocio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seguridad\FrmGestionarIdioma.resx">
+      <DependentUpon>FrmGestionarIdioma.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seguridad\FrmPatentesYFamilias.resx">
+      <DependentUpon>FrmPatentesYFamilias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seguridad\FrmSegUsuarios.resx">
+      <DependentUpon>FrmSegUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CapaAplicacion\CapaAplicacion.BLL.csproj">
+      <Project>{c591482f-8bb2-4713-bce4-6df237bcc0b9}</Project>
+      <Name>CapaAplicacion.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CapaDominio\CapaDominio.BE.csproj">
+      <Project>{67bfa336-475a-49d2-a6a3-d1348a19b6ed}</Project>
+      <Name>CapaDominio.BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CapaInterfaces.INTERFACES\CapaAbstracciones.ABSTRACCIONES.csproj">
+      <Project>{360600b6-3ffd-4712-a081-e5de63432493}</Project>
+      <Name>CapaAbstracciones.ABSTRACCIONES</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CapaServicios\CapaServicios.csproj">
+      <Project>{1efe5cc6-9a00-4adf-8498-7565e24b5cb8}</Project>
+      <Name>CapaServicios</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="biceps_body_building_fitness_icon_224815.ico" />
+    <None Include="Resources\HTML.html" />
+    <None Include="Resources\shop.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Negocio\FrmOperacionDiaria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controles\TemaVisual.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Negocio\FrmSocios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FrmInicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Presentacion\NavegadorMdi.cs" />
+    <Compile Include="Presentacion\EntrenadoresPresentador.cs" />
+    <Compile Include="Negocio\FrmEntrenadores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controles\PantallaGestion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Negocio\FrmPlanificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Negocio\FrmActividades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+<ItemGroup><Compile Include="Controles\SelectorBuscable.cs" /></ItemGroup>
+<ItemGroup><Content Include="Documentacion\ManualUsuario.pdf"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>ManualUsuario.pdf</TargetPath></Content></ItemGroup>
+<ItemGroup><Compile Include="Usuario\FrmAltaUsuarios.cs" /><Compile Include="Recuperación\FrmActivarClave.cs" /></ItemGroup>
+</Project>

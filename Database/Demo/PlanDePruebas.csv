@@ -1,0 +1,25 @@
+﻿Caso;Prueba;Accion;Resultado esperado;Resultado obtenido;Estado;Observaciones
+P01;Buscar homónimos;Buscar socio y escribir maria gomez;"Incluye las dos socias iniciales homónimas y otras coincidencias; se distinguen por número.";;Pendiente;
+P02;Buscar por número;"Buscar socio y escribir maria 2; revisar el número de cada resultado";Incluye coincidencias parciales. Elegir expresamente el ID real de la socia demo 2 según SociosDemo.csv.;;Pendiente;
+P03;Búsqueda sin tildes;Buscar munoz y o'connor en búsquedas separadas;Encuentra Ana Muñoz y Emily O'Connor sin errores.;;Pendiente;
+P04;Pago parcial;"Socio demo 81; seleccionar su membresía y pagar 5000";"Saldo inicial 13000; nuevo saldo 8000.";;Pendiente;
+P05;Sobrepago;En el mismo caso intentar pagar 8001 con saldo 8000;"Rechaza el pago; saldo permanece 8000.";;Pendiente;
+P06;Membresía impaga;"Socio demo 101; intentar reservar una sesión futura";Rechaza por falta de membresía vigente y pagada.;;Pendiente;
+P07;Membresía vencida;"Socio demo 111; intentar reservar una sesión futura";Rechaza porque la membresía terminó antes de la sesión.;;Pendiente;
+P08;Membresía que empieza después;"Socio demo 121; intentar reservar mañana";Rechaza porque su vigencia empieza en diez días.;;Pendiente;
+P09;Sin membresía;"Socio demo 141; intentar reservar una sesión futura";Rechaza hasta crear y pagar una membresía válida.;;Pendiente;
+P10;Plan sin cargo;"Socio demo 131; reservar mañana en una sesión libre";Confirma sin exigir pago porque el importe del plan es cero.;;Pendiente;
+P11;Reserva repetida;"Socio demo 1; reservar otra vez DEMO Funcional cupo dos mañana 18";Rechaza la reserva duplicada.;;Pendiente;
+P12;Cruce del socio;"Socio demo 1; reservar DEMO Movilidad paralela mañana 18 30";Rechaza por superposición con su reserva de 18 a 19.;;Pendiente;
+P13;Promoción de espera;Cancelar la reserva del socio 1 en la sesión completa;"Socio 3 pasa de Espera a Confirmada; confirmadas no superan dos.";;Pendiente;
+P14;Asistencia;Abrir Reservas y asistencia y seleccionar una reserva de hace dos días;"Permite marcar presente o ausente; no permite hacerlo en una sesión futura.";;Pendiente;
+P15;Conflicto de profesor;DEMO Fuerza mismo profesor mañana de 18 15 a 18 45;Rechaza todo el lote por cruce con el profesor de la clase completa.;;Pendiente;
+P16;Conflicto de espacio;DEMO Pilates sala uno mañana de 18 15 a 18 45;Rechaza todo el lote por cruce en sala uno.;;Pendiente;
+P17;Horario contiguo;DEMO Funcional cupo dos mañana 20 a 21;"Permite guardar si no se alteró la muestra; sala y profesor quedan libres a las 20.";;Pendiente;
+P18;Lote con una fecha conflictiva;Programar la actividad 1 de mañana a siete días después a las 18 e incluir el día de mañana;"Rechaza todo el lote; ninguna fecha nueva se guarda.";;Pendiente;
+P19;Invalidar propuesta;Generar propuesta válida y después cambiar hora o cupo;Se vacía la propuesta y se exige volver a revisar antes de guardar.;;Pendiente;
+P20;Cancelar sesión;Cancelar una sesión futura con reservas;"Sesión y reservas activas quedan canceladas; la sesión no admite nuevas reservas.";;Pendiente;
+P21;Cambio de recursos;Editar profesor o espacio de una actividad con sesiones futuras;Rechaza el cambio y pide crear otra actividad para conservar el historial.;;Pendiente;
+P22;Dato asociado;Intentar eliminar un socio que tiene membresías o reservas;"Rechaza la eliminación; conserva su historial.";;Pendiente;
+P23;Fechas inválidas;Período invertido, días sin marcar o fin igual al inicio;"Muestra validación; no genera ni guarda sesiones.";;Pendiente;
+P24;Recarga de la muestra;Volver a ejecutar PrepararPruebas con la misma base;Conserva los ejercicios realizados y no duplica los datos.;;Pendiente;

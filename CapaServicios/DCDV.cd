@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CapaServicios.DV.UsuDv">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAACgAAACAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>DV\UsuDv.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaServicios.DV.DV">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DV\DV.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaServicios.DV.VerificableAttribute">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>DV\VerificableAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaServicios.ServicesMail.SystemSupportMail">
+    <Position X="2.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ServicesMail\SystemSupportMail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaServicios.ServicesMail.MasterMailService">
+    <Position X="2.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAoQAAgEAgAAAQA=</HashCode>
+      <FileName>ServicesMail\MasterMailService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

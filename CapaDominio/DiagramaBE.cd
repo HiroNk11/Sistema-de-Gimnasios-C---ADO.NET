@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CapaDominio.Usuario">
+    <Position X="0.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAIQEAACkAAAAAAAAAAAAAAQAAAAAAgAAAAA=</HashCode>
+      <FileName>Usuario.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CapaDominio.Etiquetas">
+    <Position X="4" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAIAAAACAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Etiquetas.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Entrenamiento">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAACEAAAAgAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Entrenamiento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Entrenador">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAACEAEAAgAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entrenador.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Socio">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAGEAAAAgCAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Socio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Piso">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAABAAAAAAEAAEAACABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Piso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Clase">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkAAAAAAIAAAEIEAAACABBAAAAAAgAAAAAAAAAIA=</HashCode>
+      <FileName>Clase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Día">
+    <Position X="2.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAACEAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Día.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Horario">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAQAABAAAAAAAAAAAAAQAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Horario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Socio_Clase">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAAAAAAAAAAIAAAACAQAgAAEAAAAAAAAAAgAgA=</HashCode>
+      <FileName>Socio_Clase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Reserva_Socio">
+    <Position X="0.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAABCAAAAAoAAAAAAAAAAAgAAAAIAAAQAAAAUA=</HashCode>
+      <FileName>Reserva_Socio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Detalle_Clase">
+    <Position X="2.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAiAQAACAAAAAkAAAAAAAAIAAgIAAAICAAQAQAAUA=</HashCode>
+      <FileName>Detalle_Clase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Clases">
+    <Position X="4.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAACAAAAAgAAEAAAABAAAgAAAAIAAAAAAAAYA=</HashCode>
+      <FileName>Clases.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Lista_Clase">
+    <Position X="6.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAEAAAAAAABAAAAAAAAACAAAAAAAcA=</HashCode>
+      <FileName>Lista_Clase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Bitacora">
+    <Position X="2.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAIAAACAgAAAAAAAAABAAAAAQAAAAAA=</HashCode>
+      <FileName>Bitacora.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Detalle_Bitacora">
+    <Position X="6" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAEAAAAAAAAAAMAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Detalle_Bitacora.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaDominio.Reserva">
+    <Position X="8" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAIgAQAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Reserva.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

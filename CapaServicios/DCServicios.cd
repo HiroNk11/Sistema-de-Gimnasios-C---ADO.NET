@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CapaServicios.Encriptador">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Encriptador.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaServicios.Sesion">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACACAAAAAACAAAAAAAAIAgAAEAJAAAAAEAAQAAAA=</HashCode>
+      <FileName>Singleton\Sesion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapaServicios.SingletonSesion">
+    <Position X="4.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAgACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Singleton\SingletonSesion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
