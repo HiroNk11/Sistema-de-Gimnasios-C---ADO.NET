@@ -62,7 +62,7 @@ namespace CapaIU
             asignarHorarioToolStripMenuItem1.Text="Programar actividades";
             administrarClaseToolStripMenuItem.Text="Reservas y asistencia";
             verClasesSocioToolStripMenuItem.Text="Clases semanales del socio (histórico)";
-            calendarioToolStripMenuItem.Text="Agenda de sesiones";
+            calendarioToolStripMenuItem.Text="Calendario semanal";
             menuStrip1.BackColor=Color.White;menuStrip1.ForeColor=CapaIU.Controles.TemaVisual.Tinta;menuStrip1.Font=new Font("Segoe UI",10);menuStrip1.Padding=new Padding(10,8,8,8);
             statusStrip1.BackColor=Color.White;statusStrip1.Font=new Font("Segoe UI",9);statusStrip1.Padding=new Padding(12,4,12,4);
             var lateral=new FlowLayoutPanel {Dock=DockStyle.Left,Width=206,BackColor=CapaIU.Controles.TemaVisual.Oscuro,FlowDirection=FlowDirection.TopDown,WrapContents=false,Padding=new Padding(16,28,16,12)};
@@ -70,7 +70,15 @@ namespace CapaIU
             lateral.Controls.Add(new Label {Text="GESTIÓN DEL GIMNASIO",Font=new Font("Segoe UI",8),ForeColor=Color.FromArgb(149,178,199),AutoSize=true,Margin=new Padding(3,0,0,34)});
             Action abrirSocios=()=>AbrirVentana<CapaIU.Negocio.FrmSocios>(()=>new CapaIU.Negocio.FrmSocios());
             Action abrirOperacion=()=>AbrirVentana<CapaIU.Negocio.FrmOperacionDiaria>(()=>new CapaIU.Negocio.FrmOperacionDiaria());
-            Action inicio=()=>AbrirVentana<FrmInicio>(()=>new FrmInicio(abrirSocios,abrirOperacion,negocioToolStripMenuItem.Available,mnuges.Available?(Action)(()=>AbrirVentana<FrmAltaUsuarios>(()=>new FrmAltaUsuarios())):null));
+            Action abrirCalendario=()=>AbrirVentana<Negocio.FrmCalendarioSemanal>(()=>new Negocio.FrmCalendarioSemanal());
+            Action<int> abrirCobros=id=>{
+                var existente=MdiChildren.OfType<Negocio.FrmOperacionDiaria>().FirstOrDefault(f=>!f.IsDisposed);
+                if(existente==null)navegador.Abrir(()=>new Negocio.FrmOperacionDiaria(id));
+                else{navegador.Abrir(()=>existente);existente.AbrirCobrosSocio(id);}
+            };
+            Action abrirSaldos=()=>AbrirVentana<Negocio.FrmSaldosPendientes>(()=>new Negocio.FrmSaldosPendientes(abrirCobros));
+            bool vistaPrevia=_usuarioBLL==null;
+            Action inicio=()=>AbrirVentana<FrmInicio>(()=>new FrmInicio(abrirSocios,abrirOperacion,negocioToolStripMenuItem.Available,mnuges.Available?(Action)(()=>AbrirVentana<FrmAltaUsuarios>(()=>new FrmAltaUsuarios())):null,abrirCalendario,abrirSaldos,abrirCobros,vistaPrevia));
             Action<string,Action,bool> boton=(texto,accion,disponible)=>{
                 var b=new Button {Text=texto,Width=174,Height=43,FlatStyle=FlatStyle.Flat,BackColor=CapaIU.Controles.TemaVisual.Oscuro,ForeColor=Color.White,Font=new Font("Segoe UI",10),TextAlign=ContentAlignment.MiddleLeft,Cursor=Cursors.Hand,Margin=new Padding(0,3,0,5),Visible=disponible};
                 b.FlatAppearance.BorderSize=0;b.FlatAppearance.MouseOverBackColor=Color.FromArgb(38,65,88);b.Click+=(s,e)=>accion();
@@ -82,6 +90,8 @@ namespace CapaIU
             boton("Entrenadores",()=>gestionarEntrenadorToolStripMenuItem_Click(this,EventArgs.Empty),negocioToolStripMenuItem.Available);
             boton("Actividades",()=>gestionarClaseToolStripMenuItem_Click(this,EventArgs.Empty),negocioToolStripMenuItem.Available);
             boton("Horarios",()=>AbrirVentana<Negocio.FrmPlanificacion>(()=>new Negocio.FrmPlanificacion()),negocioToolStripMenuItem.Available);
+            boton("Calendario semanal",abrirCalendario,negocioToolStripMenuItem.Available);
+            boton("Saldos pendientes",abrirSaldos,negocioToolStripMenuItem.Available);
             Controls.Add(lateral);lateral.BringToFront();
             foreach(Control c in Controls)if(c is MdiClient)c.BackColor=CapaIU.Controles.TemaVisual.Fondo;
             Shown+=(s,e)=>inicio();MdiChildActivate+=(s,e)=>{if(ActiveMdiChild!=null && !(ActiveMdiChild is FrmInicio))ActiveMdiChild.WindowState=FormWindowState.Maximized;};
@@ -401,7 +411,7 @@ namespace CapaIU
 
         private void calendarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            navegador.Abrir(()=>new Negocio.FrmPlanificacion()).MostrarAgenda();
+            navegador.Abrir(()=>new Negocio.FrmCalendarioSemanal());
         }
 
         private void FrmMdiPrincipal_HelpRequested(object sender, HelpEventArgs hlpevent)

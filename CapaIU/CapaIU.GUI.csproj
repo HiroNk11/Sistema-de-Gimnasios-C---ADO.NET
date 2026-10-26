@@ -393,4 +393,10 @@
 <ItemGroup><Compile Include="Controles\SelectorBuscable.cs" /></ItemGroup>
 <ItemGroup><Content Include="Documentacion\ManualUsuario.pdf"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>ManualUsuario.pdf</TargetPath></Content></ItemGroup>
 <ItemGroup><Compile Include="Usuario\FrmAltaUsuarios.cs" /><Compile Include="Recuperación\FrmActivarClave.cs" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controles\CalendarioSemanal.cs" />
+    <Compile Include="Presentacion\MonitoreoMuestra.cs" />
+    <Compile Include="Negocio\FrmCalendarioSemanal.cs" />
+    <Compile Include="Negocio\FrmSaldosPendientes.cs" />
+  </ItemGroup>
 </Project>

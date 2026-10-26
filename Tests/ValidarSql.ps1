@@ -16,7 +16,7 @@ foreach($file in $files) {
 }
 
 $count=0
-foreach($name in @('OperacionRepository.cs','CredencialRepository.cs','UsuarioRepository.cs','PermisosRepository.cs','Negocio\SocioRepository.cs')) {
+foreach($name in @('OperacionRepository.cs','MonitoreoRepository.cs','CredencialRepository.cs','UsuarioRepository.cs','PermisosRepository.cs','Negocio\SocioRepository.cs')) {
  $path=Join-Path (Join-Path $PSScriptRoot '..\CapaRepositorio') $name
  $source=[IO.File]::ReadAllText($path)
  foreach($m in [regex]::Matches($source,'@"((?:""|[^"])*)"|"((?:\\.|[^"\\])*)"')) {

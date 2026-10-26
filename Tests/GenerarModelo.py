@@ -30,5 +30,10 @@ for batch in re.split(r'^\s*GO\s*$',new+'\nGO\n'+upgrade,flags=re.M|re.I):
  batch=re.sub(r'/\*.*?\*/','',batch,flags=re.S).strip()
  if re.match(r'CREATE OR ALTER (PROCEDURE|TRIGGER)',batch,re.I):parts.append(re.sub(r'CREATE OR ALTER','CREATE',batch,count=1,flags=re.I))
 parts+=['CREATE SEQUENCE dbo.Seq_Usuario AS int START WITH 1 INCREMENT BY 1;','CREATE SEQUENCE dbo.Seq_Idioma AS int START WITH 1 INCREMENT BY 1;']
+monitor=(root/'CapaRepositorio/MonitoreoRepository.cs').read_text(encoding='utf-8-sig')
+for i,m in enumerate(re.finditer(r'@"((?:""|[^"])*)"',monitor)):
+ sql=m.group(1).replace('""','"')
+ if sql.lstrip().startswith('SELECT'):
+  parts.append(f'CREATE PROCEDURE dbo.Prueba_Monitoreo_{i} @desde datetime2,@hasta datetime2 AS BEGIN\n{sql}\nEND;')
 (root/'Tests/modelo_proyectado.sql').write_text('\nGO\n'.join(parts),encoding='utf-8-sig')
 print(len(parts),'definiciones para validar modelo final')

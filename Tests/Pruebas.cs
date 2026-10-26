@@ -88,7 +88,34 @@ class Pruebas
         Check(usuarios.GetByUserName("correoLargo")!=null,"correo mayor a 50 caracteres soportado");
         new BitacoraRepository().InsertarEvento(new Bitacora {id_usuario=1,actividad=new string('a',100),criticidad="Baja",fecha="21/10/2026",hora="12:00:00"});
         Check(Count("SELECT COUNT(*) FROM Bitacora WHERE MomentoUtc IS NOT NULL AND LEN(Actividad)=100")==1,"bitácora admite actividad extensa y timestamp UTC");
+        IntegracionMonitoreo(repo);
         Console.WriteLine("La base de prueba se conserva para inspección: "+builder.InitialCatalog);
+    }
+    static void IntegracionMonitoreo(OperacionRepository repo)
+    {
+        repo.Membresia(12,"Otra deuda",DateTime.Today,DateTime.Today.AddDays(5),50,1);
+        var monitor=new MonitoreoRepository();var inicio=monitor.Inicio();
+        Check(Convert.ToInt32(inicio.Tables["Resumen"].Rows[0]["Socios"])==12,"resumen cuenta socios registrados");
+        Check(Convert.ToInt32(inicio.Tables["Resumen"].Rows[0]["SociosConSaldo"])==1,"dos membresias pendientes cuentan una sola persona");
+        Check(Convert.ToDecimal(inicio.Tables["Resumen"].Rows[0]["SaldoPendiente"])==150m,"saldos suman deudas sin multiplicar los pagos");
+        Check(inicio.Tables["Pendientes"].Rows.Count==1 && Convert.ToInt32(inicio.Tables["Pendientes"].Rows[0]["Id_Socio"])==12,"listado agrupa deuda por socio");
+        DateTime dia=DateTime.Today.AddDays(5).AddHours(10);
+        repo.Sesion(1,dia,dia.AddHours(1),1,1);int a=Count("SELECT MAX(Id) FROM App_Sesion");
+        repo.Sesion(2,dia.AddMinutes(30),dia.AddMinutes(90),1,1);int b=Count("SELECT MAX(Id) FROM App_Sesion");
+        repo.Sesion(1,dia.AddHours(1),dia.AddHours(2),2,1);int c=Count("SELECT MAX(Id) FROM App_Sesion");
+        repo.Reservar(a,1,1);repo.Reservar(a,2,1);
+        Rechaza<InvalidOperationException>(()=>repo.Reservar(b,1,1),"rechaza cruce parcial de confirmada");
+        Rechaza<InvalidOperationException>(()=>repo.Reservar(b,2,1),"rechaza cruce parcial de lista de espera");
+        Check(repo.Reservar(c,2,1).Contains("confirmada"),"permite actividades consecutivas aunque la primera este en espera");
+        int reserva=Count("SELECT Id FROM App_Reserva WHERE Id_Sesion="+a+" AND Id_Socio=1 AND Estado='Confirmada'");repo.CancelarReserva(reserva,1);
+        Check(Count("SELECT COUNT(*) FROM App_Reserva WHERE Id_Sesion="+a+" AND Id_Socio=2 AND Estado='Confirmada'")==1,"promocion no confunde actividades consecutivas con cruces");
+        Check(repo.Reservar(b,1,1).Contains("confirmada"),"reserva cancelada libera el horario del socio");
+        int aceptadas=0,rechazadas=0;
+        Parallel.ForEach(new[]{a,b},id=>{try{Retry(()=>repo.Reservar(id,3,1));System.Threading.Interlocked.Increment(ref aceptadas);}catch(InvalidOperationException){System.Threading.Interlocked.Increment(ref rechazadas);}});
+        Check(aceptadas==1 && rechazadas==1,"dos altas concurrentes superpuestas solo aceptan una, incluso en espera");
+        var semana=monitor.Semana(MonitoreoBLL.Lunes(dia));
+        Check(semana.Tables["Sesiones"].Rows.Cast<DataRow>().Any(r=>Convert.ToInt32(r["Id"])==b),"calendario consulta sesiones por semana");
+        Check(semana.Tables["Participantes"].Rows.Cast<DataRow>().Any(r=>Convert.ToInt32(r["Id_Sesion"])==b && Convert.ToInt32(r["Id_Socio"])==1),"calendario conserva participantes y sesion correspondientes");
     }
     static int Main(string[] args)
     {

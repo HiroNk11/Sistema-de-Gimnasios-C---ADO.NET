@@ -122,4 +122,7 @@
 <ItemGroup><Compile Include="PlanificacionBLL.cs" /></ItemGroup>
 <ItemGroup><Compile Include="ActividadesBLL.cs" /></ItemGroup>
 <ItemGroup><Compile Include="CuentasBLL.cs" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="MonitoreoBLL.cs" />
+  </ItemGroup>
 </Project>

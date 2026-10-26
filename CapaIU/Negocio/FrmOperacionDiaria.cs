@@ -27,8 +27,15 @@ namespace CapaIU.Negocio
         readonly Label[] valores=new Label[4];
         readonly Button cobrar=TemaVisual.Boton("Registrar pago",true),completar=TemaVisual.Boton("Usar saldo pendiente"),reservar=TemaVisual.Boton("Reservar para el socio",true),cancelarSesion=TemaVisual.Boton("Cancelar sesión",false,true),cancelarReserva=TemaVisual.Boton("Cancelar reserva",false,true),presente=TemaVisual.Boton("Marcar presente",true),ausente=TemaVisual.Boton("Marcar ausente"),actualizar=TemaVisual.Boton("Actualizar");
         bool ocupado;
+        int socioInicial;
         TabControl editorMembresias,editorSesiones;
         public FrmOperacionDiaria() : this(false) {}
+        public FrmOperacionDiaria(int idSocio) : this(false){socioInicial=idSocio;AbrirSeccion(1);}
+        public void AbrirCobrosSocio(int idSocio)
+        {
+            if(ocupado){Aviso("Esperá a que termine la operación y volvé a abrir el socio desde Saldos pendientes.",true);return;}
+            socioInicial=idSocio;AbrirSeccion(1);_ = Ejecutar(CargarDatos);
+        }
         internal FrmOperacionDiaria(bool vistaPrevia)
         {
             preview=vistaPrevia;
@@ -193,7 +200,7 @@ namespace CapaIU.Negocio
         }
         async Task CargarDatos()
         {
-            Aviso("Actualizando información…");int id=SocioId();int seleccionClase=clase.SelectedValue is int?(int)clase.SelectedValue:0;
+            Aviso("Actualizando información…");int id=socioInicial>0?socioInicial:SocioId();socioInicial=0;int seleccionClase=clase.SelectedValue is int?(int)clase.SelectedValue:0;
             var datos=await Task.Run(()=>new object[]{new SocioBLL().Listar(),new ClaseBLL().ListarClase(),negocio.Listar("Membresias",id),negocio.Listar("Sesiones"),negocio.Listar("Reservas",id),negocio.Listar("Pagos",id),negocio.Listar("Panel")});
             socio.DataSource=(List<Socio>)datos[0];socio.SelectedValue=id;if(id==0)socio.SelectedIndex=-1;
             clase.DataSource=(List<Clase>)datos[1];if(seleccionClase>0)clase.SelectedValue=seleccionClase;

@@ -117,4 +117,7 @@
 <ItemGroup><Compile Include="PlanificacionRepository.cs" /></ItemGroup>
 <ItemGroup><Compile Include="ActividadesRepository.cs" /></ItemGroup>
 <ItemGroup><Compile Include="CuentasRepository.cs" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="MonitoreoRepository.cs" />
+  </ItemGroup>
 </Project>

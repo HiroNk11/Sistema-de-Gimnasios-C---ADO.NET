@@ -2,6 +2,8 @@
 
 Sistema de gestión de gimnasios en C#, Windows Forms y ADO.NET, con SQL Server. Incluye gestión de socios, profesores, actividades, planificación de sesiones, membresías, pagos, reservas, lista de espera y asistencia.
 
+Incluye calendario semanal con participantes por sesión, indicadores en Inicio y acceso a saldos pendientes. Ver [guía de monitoreo](GUIA_MONITOREO.md).
+
 ## Requisitos
 
 - Windows y Visual Studio con desarrollo de escritorio .NET y herramientas de .NET Framework 4.7.2.
@@ -76,6 +78,7 @@ powershell.exe -NoProfile -File .\Tests\ProbarInterfaz.ps1
 powershell.exe -NoProfile -File .\Tests\ProbarPlanificacion.ps1
 powershell.exe -NoProfile -File .\Tests\ProbarPatrones.ps1
 powershell.exe -NoProfile -File .\Tests\ProbarBitacora.ps1
+powershell.exe -NoProfile -File .\Tests\ProbarMonitoreo.ps1
 ```
 
 Estas pruebas no certifican la instalación SQL ni la concurrencia entre dos puestos. LocalDB es local: para dos computadoras se necesita una base central y validar acceso, transacciones simultáneas y respaldo. El sistema continúa en evolución; la anulación de pagos y el despliegue compartido requieren definiciones adicionales.

@@ -14,6 +14,12 @@ namespace CapaRepositorio
             for(int i=0;i<args.Length;i++)cmd.Parameters.AddWithValue("@p"+i,args[i]??DBNull.Value);
             return cmd;
         }
+        static void BloquearReservas(SqlConnection cn,SqlTransaction tx)
+        {
+            // Un orden comun en altas, cancelaciones y promociones evita dos reservas
+            // simultaneas incompatibles. Adecuado para la recepcion de uno o dos puestos.
+            using(var cmd=Comando(cn,tx,"SELECT COUNT_BIG(*) FROM dbo.App_Reserva WITH(TABLOCKX,HOLDLOCK)"))cmd.ExecuteScalar();
+        }
         public DataTable Listar(string seccion,int socio=0)
         {
             string sql;
@@ -64,6 +70,7 @@ UNION ALL SELECT 'Reservas en espera',COUNT(*) FROM App_Reserva WHERE Estado='Es
         {
             using(var cn=Conectar())using(var tx=cn.BeginTransaction(IsolationLevel.Serializable))
             {
+                BloquearReservas(cn,tx);
                 int capacidad;DateTime inicio,fin;string estado;
                 using(var cmd=Comando(cn,tx,"SELECT Capacidad,Inicio,Fin,Estado FROM App_Sesion WITH(UPDLOCK,HOLDLOCK) WHERE Id=@p0",sesion))
                 using(var reader=cmd.ExecuteReader())
@@ -73,8 +80,8 @@ UNION ALL SELECT 'Reservas en espera',COUNT(*) FROM App_Reserva WHERE Estado='Es
                 if(Convert.ToInt32(cmd.ExecuteScalar())>0)throw new InvalidOperationException("El socio ya tiene una reserva para esa sesión.");
                 using(var cmd=Comando(cn,tx,@"SELECT COUNT(*) FROM App_Membresia m WHERE Id_Socio=@p0 AND Desde<=@p1 AND Hasta>=@p1 AND m.Importe<=COALESCE((SELECT SUM(p.Importe) FROM App_Pago p WHERE p.Id_Membresia=m.Id),0)",socio,inicio.Date))
                 if(Convert.ToInt32(cmd.ExecuteScalar())==0)throw new InvalidOperationException("El socio necesita una membresía vigente y pagada para la fecha de la sesión.");
-                using(var cmd=Comando(cn,tx,@"SELECT COUNT(*) FROM App_Reserva r JOIN App_Sesion s ON s.Id=r.Id_Sesion WHERE r.Id_Socio=@p0 AND r.Estado='Confirmada' AND s.Inicio<@p2 AND s.Fin>@p1",socio,inicio,fin))
-                if(Convert.ToInt32(cmd.ExecuteScalar())>0)throw new InvalidOperationException("El socio tiene otra reserva en ese horario.");
+                using(var cmd=Comando(cn,tx,@"SELECT COUNT(*) FROM App_Reserva r JOIN App_Sesion s ON s.Id=r.Id_Sesion WHERE r.Id_Socio=@p0 AND r.Estado IN('Confirmada','Espera') AND s.Estado='Programada' AND s.Inicio<@p2 AND s.Fin>@p1",socio,inicio,fin))
+                if(Convert.ToInt32(cmd.ExecuteScalar())>0)throw new InvalidOperationException("El socio ya tiene una reserva confirmada o en espera que se cruza con ese horario. Puede elegir actividades consecutivas o cancelar primero la otra reserva.");
                 int ocupados;
                 using(var cmd=Comando(cn,tx,"SELECT COUNT(*) FROM App_Reserva WHERE Id_Sesion=@p0 AND Estado='Confirmada'",sesion))ocupados=Convert.ToInt32(cmd.ExecuteScalar());
                 string nuevo=ocupados<capacidad?"Confirmada":"Espera";
@@ -91,6 +98,7 @@ UNION ALL SELECT 'Reservas en espera',COUNT(*) FROM App_Reserva WHERE Estado='Es
                 {object value=cmd.ExecuteScalar();if(value==null)throw new ArgumentException("Reserva inexistente.");sesion=Convert.ToInt32(value);}
                 using(var tx=cn.BeginTransaction(IsolationLevel.Serializable))
                 {
+                    BloquearReservas(cn,tx);
                     DateTime inicio;
                     using(var cmd=Comando(cn,tx,"SELECT Inicio FROM App_Sesion WITH(UPDLOCK,HOLDLOCK) WHERE Id=@p0",sesion))inicio=Convert.ToDateTime(cmd.ExecuteScalar());
                     if(inicio<=DateTime.Now)throw new InvalidOperationException("Solo se pueden cancelar reservas futuras.");
@@ -101,7 +109,7 @@ UNION ALL SELECT 'Reservas en espera',COUNT(*) FROM App_Reserva WHERE Estado='Es
                     if(anterior=="Confirmada")
                     using(var cmd=Comando(cn,tx,@"UPDATE App_Reserva SET Estado='Confirmada',ActualizadoUtc=SYSUTCDATETIME(),Id_Usuario=@p1 WHERE Id=(SELECT TOP(1) r.Id FROM App_Reserva r JOIN App_Sesion s ON s.Id=r.Id_Sesion WHERE r.Id_Sesion=@p0 AND r.Estado='Espera'
 AND EXISTS(SELECT 1 FROM App_Membresia m WHERE m.Id_Socio=r.Id_Socio AND m.Desde<=CONVERT(date,s.Inicio) AND m.Hasta>=CONVERT(date,s.Inicio) AND m.Importe<=COALESCE((SELECT SUM(p.Importe) FROM App_Pago p WHERE p.Id_Membresia=m.Id),0))
-AND NOT EXISTS(SELECT 1 FROM App_Reserva r2 JOIN App_Sesion s2 ON s2.Id=r2.Id_Sesion WHERE r2.Id_Socio=r.Id_Socio AND r2.Estado='Confirmada' AND s2.Inicio<s.Fin AND s2.Fin>s.Inicio)
+AND NOT EXISTS(SELECT 1 FROM App_Reserva r2 JOIN App_Sesion s2 ON s2.Id=r2.Id_Sesion WHERE r2.Id<>r.Id AND r2.Id_Socio=r.Id_Socio AND r2.Estado IN('Confirmada','Espera') AND s2.Estado='Programada' AND s2.Inicio<s.Fin AND s2.Fin>s.Inicio)
 ORDER BY r.Id)",sesion,usuario))cmd.ExecuteNonQuery();
                     tx.Commit();
                 }
@@ -111,6 +119,7 @@ ORDER BY r.Id)",sesion,usuario))cmd.ExecuteNonQuery();
         {
             using(var cn=Conectar())using(var tx=cn.BeginTransaction(IsolationLevel.Serializable))
             {
+                BloquearReservas(cn,tx);
                 using(var cmd=Comando(cn,tx,"UPDATE App_Sesion WITH(UPDLOCK,HOLDLOCK) SET Estado='Cancelada',Id_Usuario=@p1 WHERE Id=@p0 AND Inicio>GETDATE() AND Estado='Programada'",sesion,usuario))
                 if(cmd.ExecuteNonQuery()!=1)throw new InvalidOperationException("Seleccione una sesión futura programada.");
                 using(var cmd=Comando(cn,tx,"UPDATE App_Reserva SET Estado='Cancelada',ActualizadoUtc=SYSUTCDATETIME(),Id_Usuario=@p1 WHERE Id_Sesion=@p0 AND Estado IN('Confirmada','Espera')",sesion,usuario))cmd.ExecuteNonQuery();

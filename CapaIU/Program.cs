@@ -36,6 +36,8 @@ namespace CapaIU
                     causa="SQL Server rechazó el inicio de sesión de Windows. Revise los permisos en la instancia configurada.";
                 else if(sqlError.Number==201)
                     causa="La conexión con SQL Server funciona, pero una operación no envió un parámetro requerido. Actualice la aplicación; si persiste, informe esta referencia.";
+                else if(sqlError.Number==1205)
+                    causa="Otra operación coincidió con esta y SQL Server revirtió este intento. Actualice los datos y vuelva a intentarlo.";
                 else if(sqlError.Number==208 || sqlError.Number==2812)
                     causa="La conexión funciona, pero faltan tablas o procedimientos. Aplique las migraciones sobre la base configurada.";
                 else
