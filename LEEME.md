@@ -62,11 +62,11 @@ El último parámetro es para una instancia de prueba con certificado autofirmad
 
 ```powershell
 
-.\Database\ConfigurarAdministrador.ps1 -Servidor '(localdb)\MSSQLLocalDB' -Base DatabaseGym_Mejorado -Usuario 'administrador' -Correo 'su-correo@su-dominio.com' -ConfiarCertificadoDePrueba
+.\Database\ConfigurarAdministrador.ps1 -Servidor '(localdb)\MSSQLLocalDB' -Base DatabaseGym_Mejorado -Usuario 'administrador' -Correo 'administrador@example.invalid' -ConfiarCertificadoDePrueba
 
 ```
 
-El script solicita y confirma la contraseña en pantalla sin mostrarla; debe tener entre 12 y 128 caracteres. No recibe la contraseña en la línea de comandos, no imprime el hash y no envía correos. No sobrescribe cuentas existentes. Asigna la familia Administrador del catálogo original. Esa familia no tenía asignados backup y restore: se pueden asignar desde la pantalla de permisos si se necesitan.
+El script solicita y confirma la contraseña en pantalla sin mostrarla; debe tener entre 15 y 128 caracteres. No recibe la contraseña en la línea de comandos, no imprime el hash y no envía correos. No sobrescribe cuentas existentes. Asigna la familia Administrador del catálogo original. Esa familia no tenía asignados backup y restore: se pueden asignar desde la pantalla de permisos si se necesitan.
 
 5. Para iniciar contra la instancia local de pruebas desde la misma terminal:
 
@@ -139,4 +139,3 @@ Esta es una versión para revisión y pruebas, aún no una puesta en producción
 ## Ajuste de LocalDB del 22/10/2026
 
 El diagnóstico confirmó que esta instancia de LocalDB no admite cifrado. La conexión de pruebas usa Encrypt=False; los asistentes mantienen Encrypt=True para servidores que no sean LocalDB. Las copias locales de configuraciones anteriores se excluyen de Git.
-

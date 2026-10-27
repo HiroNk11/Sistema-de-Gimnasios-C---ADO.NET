@@ -20,7 +20,7 @@ Abrir PowerShell en la raíz del repositorio. Después de restaurar NuGet:
 .\Database\ConfigurarAdministrador.ps1 -Usuario administrador -Correo administrador@example.invalid
 ```
 
-El último comando solicita una contraseña propia de 12 a 128 caracteres sin mostrarla. No existe una contraseña predeterminada. La instalación crea una base nueva y rechaza sobrescribir una existente. Los scripts no importan datos personales de la base original.
+El último comando solicita una contraseña propia de 15 a 128 caracteres sin mostrarla. No existe una contraseña predeterminada. La instalación crea una base nueva y rechaza sobrescribir una existente. Los scripts no importan datos personales de la base original.
 
 Para activar el perfil limitado de administración y poder crear cuentas de Recepción:
 
@@ -82,3 +82,14 @@ powershell.exe -NoProfile -File .\Tests\ProbarMonitoreo.ps1
 ```
 
 Estas pruebas no certifican la instalación SQL ni la concurrencia entre dos puestos. LocalDB es local: para dos computadoras se necesita una base central y validar acceso, transacciones simultáneas y respaldo. El sistema continúa en evolución; la anulación de pagos y el despliegue compartido requieren definiciones adicionales.
+
+## Actualización de seguridad y privacidad
+
+Se actualizaron iTextSharp, BouncyCastle y System.Text.Json, se retiraron librerías sin
+uso y el parser HTML de PDF, y se migró a PackageReference con packages.lock.json.
+Restaurar paquetes desde Visual Studio antes de compilar; ya no se usan packages.config.
+
+Consultar [auditoría de seguridad](AUDITORIA-SEGURIDAD.md),
+[privacidad e historial](AUDITORIA-PRIVACIDAD.md), [reporte privado](SECURITY.md) y el
+[manual editable sin datos de instalación](docs/ManualUsuario.md). La aplicación también
+incluye su PDF actualizado. Las conexiones SQL remotas exigen un certificado válido.

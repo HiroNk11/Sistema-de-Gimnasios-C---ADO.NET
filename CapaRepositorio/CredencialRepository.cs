@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
@@ -67,7 +67,7 @@ IF @@ROWCOUNT=0 INSERT dbo.Usuario_Credencial(Id_Usuario,PasswordHash) VALUES(@i
                     using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.Read()) { usuario = Convert.ToString(reader[0]); email = Convert.ToString(reader[1]); nombre = Convert.ToString(reader[2]); }
-                        if (reader.Read()) throw new InvalidOperationException("Hay datos de contacto duplicados. Solicite asistencia al administrador.");
+                        if (reader.Read()) return "Si los datos corresponden a una cuenta, recibirá un código por correo.";
                     }
                 }
                 if (usuario == null) return "Si los datos corresponden a una cuenta, recibirá un código por correo.";
@@ -78,12 +78,15 @@ IF @@ROWCOUNT=0 INSERT dbo.Usuario_Credencial(Id_Usuario,PasswordHash) VALUES(@i
                     cmd.Parameters.Add("@h",SqlDbType.VarChar,64).Value=Encriptador.TokenHash(token);
                     cmd.ExecuteNonQuery();
                 }
-                new CapaServicios.ServicesMail.SystemSupportMail().sendEmail("Recuperación de acceso", "Hola " + nombre + ". Su código es: " + token + "\nVence en 15 minutos y solo se puede usar una vez.", new List<string>{email});
+                try { new CapaServicios.ServicesMail.SystemSupportMail().sendEmail("Recuperación de acceso", "Hola " + nombre + ". Su código es: " + token + "\nVence en 15 minutos y solo se puede usar una vez.", new List<string>{email}); }
+                catch(Exception ex) { System.Diagnostics.Trace.TraceWarning("Recuperación: envío no completado; tipo {0}; HResult {1}.",ex.GetType().Name,ex.HResult); }
             }
             return "Si los datos corresponden a una cuenta, recibirá un código por correo.";
         }
         public void Restablecer(string solicitud, string token, string hash)
         {
+            if (string.IsNullOrWhiteSpace(solicitud) || solicitud.Length > 254 || string.IsNullOrEmpty(token) || token.Length > 128)
+                throw new ArgumentException("Código inválido o vencido.");
             using (var cn = new SqlConnection(acceso.GetConnectionString()))
             {
                 cn.Open(); using (var tx=cn.BeginTransaction(IsolationLevel.Serializable))
@@ -99,7 +102,7 @@ IF @@ROWCOUNT=0 INSERT dbo.Usuario_Credencial(Id_Usuario,PasswordHash) VALUES(@i
                         using(var reader=cmd.ExecuteReader()) if(reader.Read()) {id=reader.GetInt32(0); esperado=reader.GetString(1); intentos=reader.GetInt32(2);}
                     }
                     if(id==0 || intentos>=5) throw new ArgumentException("Código inválido o vencido. Solicite uno nuevo.");
-                    bool correcto=Encriptador.TokenHash(token ?? "")==esperado;
+                    bool correcto=Encriptador.TokenValido(token, esperado);
                     using(var cmd=new SqlCommand("UPDATE dbo.Recuperacion_Acceso SET Intentos=Intentos+1 WHERE Id=@id",cn,tx))
                     {cmd.Parameters.Add("@id",SqlDbType.Int).Value=id;cmd.ExecuteNonQuery();}
                     if(!correcto) {tx.Commit();throw new ArgumentException("Código inválido o vencido.");}

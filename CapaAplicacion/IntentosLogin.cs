@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 namespace CapaAplicacion
 {
     public sealed class AccesoTemporalmenteBloqueadoException : InvalidOperationException
@@ -25,6 +26,8 @@ namespace CapaAplicacion
             lock(sincronizacion)
             {
                 Estado estado; string key=usuario.Trim();
+                foreach(string vencido in estados.Where(x=>x.Value.Hasta<=DateTime.UtcNow).Select(x=>x.Key).ToArray()) estados.Remove(vencido);
+                if(estados.Count>=4096 && !estados.ContainsKey(key)) throw new AccesoTemporalmenteBloqueadoException();
                 if(!estados.TryGetValue(key,out estado) || estado.Hasta <= DateTime.UtcNow) estados[key]=estado=new Estado();
                 estado.Intentos++;
             }

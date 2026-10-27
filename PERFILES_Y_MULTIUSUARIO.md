@@ -28,7 +28,7 @@ El asistente aplica 004_perfiles.sql y cambia únicamente los permisos de la cue
 
 4. Abrí la aplicación de pruebas con AbrirPruebas.ps1, como indica el instalador. Ingresá con demo y su clave actual. Debe aparecer Alta de usuarios y no la operación del gimnasio.
 
-5. Creá recepcion01 con nombre, apellido, correo válido y perfil Recepción. Elegí una clave inicial de 12 a 128 caracteres y repetila. Para pruebas se puede usar recepcion01@example.invalid; no se envían correos.
+5. Creá recepcion01 con nombre, apellido, correo válido y perfil Recepción. Elegí una clave inicial de 15 a 128 caracteres y repetila. Para pruebas se puede usar recepcion01@example.invalid; no se envían correos.
 
 6. Cerrá la sesión de demo e ingresá con recepcion01. Debe pedir cambiar la clave inicial por otra diferente. Si se cancela, no deja entrar.
 

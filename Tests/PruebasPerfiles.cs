@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -19,11 +19,11 @@ class PruebasPerfiles
  static System.Collections.Generic.IEnumerable<Control> Todos(Control c){foreach(Control hijo in c.Controls){yield return hijo;foreach(var n in Todos(hijo))yield return n;}}
  [STAThread]static int Main(string[] args){try{
   Check((int)TipoPermiso.PuedeAccederANegocio==7 && (int)TipoPermiso.PuedeAccederRestore==13,"valores históricos de permisos preservados");Check((int)TipoPermiso.PuedeCrearUsuarios==14,"permiso de alta agregado al final");
-  CuentasBLL.Validar(Usuario(),PerfilCuenta.Recepcion,"ClavePrueba1234","ClavePrueba1234");Check(true,"alta válida de recepción");CuentasBLL.Validar(Usuario(),PerfilCuenta.AdministracionDeCuentas,"ClavePrueba1234","ClavePrueba1234");Check(true,"alta válida de administración");
-  Rechaza(()=>CuentasBLL.Validar(null,PerfilCuenta.Recepcion,"ClavePrueba1234","ClavePrueba1234"),"rechaza cuenta vacía");var u=Usuario();u.usuario=" ";Rechaza(()=>CuentasBLL.Validar(u,PerfilCuenta.Recepcion,"ClavePrueba1234","ClavePrueba1234"),"rechaza usuario vacío");
-  u=Usuario();u.email="sin-correo";Rechaza(()=>CuentasBLL.Validar(u,PerfilCuenta.Recepcion,"ClavePrueba1234","ClavePrueba1234"),"rechaza correo inválido");
-  Rechaza(()=>CuentasBLL.Validar(Usuario(),(PerfilCuenta)123,"ClavePrueba1234","ClavePrueba1234"),"rechaza perfiles fuera de la lista");Rechaza(()=>CuentasBLL.Validar(Usuario(),PerfilCuenta.Recepcion,"corta","corta"),"rechaza clave corta");Rechaza(()=>CuentasBLL.Validar(Usuario(),PerfilCuenta.Recepcion,"ClavePrueba1234","OtraClave12345"),"rechaza confirmación diferente");
-  Deniega(()=>new CuentasBLL().Crear(Usuario(),PerfilCuenta.Recepcion,"ClavePrueba1234","ClavePrueba1234"),"alta denegada sin sesión antes de consultar SQL");Deniega(()=>new SocioBLL().Listar(),"consulta de socios denegada sin sesión");Deniega(()=>new ActividadesBLL().Cargar(),"consulta de actividades denegada sin sesión");Deniega(()=>new SocioBLL().Borrar(new Socio {Id_Socio=1}),"eliminación de socio denegada sin sesión");
+  CuentasBLL.Validar(Usuario(),PerfilCuenta.Recepcion,"ClaveDePrueba12345","ClaveDePrueba12345");Check(true,"alta válida de recepción");CuentasBLL.Validar(Usuario(),PerfilCuenta.AdministracionDeCuentas,"ClaveDePrueba12345","ClaveDePrueba12345");Check(true,"alta válida de administración");
+  Rechaza(()=>CuentasBLL.Validar(null,PerfilCuenta.Recepcion,"ClaveDePrueba12345","ClaveDePrueba12345"),"rechaza cuenta vacía");var u=Usuario();u.usuario=" ";Rechaza(()=>CuentasBLL.Validar(u,PerfilCuenta.Recepcion,"ClaveDePrueba12345","ClaveDePrueba12345"),"rechaza usuario vacío");
+  u=Usuario();u.email="sin-correo";Rechaza(()=>CuentasBLL.Validar(u,PerfilCuenta.Recepcion,"ClaveDePrueba12345","ClaveDePrueba12345"),"rechaza correo inválido");
+  Rechaza(()=>CuentasBLL.Validar(Usuario(),(PerfilCuenta)123,"ClaveDePrueba12345","ClaveDePrueba12345"),"rechaza perfiles fuera de la lista");Rechaza(()=>CuentasBLL.Validar(Usuario(),PerfilCuenta.Recepcion,"corta","corta"),"rechaza clave corta");Rechaza(()=>CuentasBLL.Validar(Usuario(),PerfilCuenta.Recepcion,"ClaveDePrueba12345","OtraClave12345"),"rechaza confirmación diferente");
+  Deniega(()=>new CuentasBLL().Crear(Usuario(),PerfilCuenta.Recepcion,"ClaveDePrueba12345","ClaveDePrueba12345"),"alta denegada sin sesión antes de consultar SQL");Deniega(()=>new SocioBLL().Listar(),"consulta de socios denegada sin sesión");Deniega(()=>new ActividadesBLL().Cargar(),"consulta de actividades denegada sin sesión");Deniega(()=>new SocioBLL().Borrar(new Socio {Id_Socio=1}),"eliminación de socio denegada sin sesión");
   Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);var app=Assembly.LoadFrom(args[0]);Directory.CreateDirectory(args[1]);
   using(var f=(Form)app.GetType("CapaIU.FrmAltaUsuarios",true).GetConstructor(BindingFlags.NonPublic|BindingFlags.Instance,null,new[]{typeof(bool)},null).Invoke(new object[]{true})){
    f.StartPosition=FormStartPosition.Manual;f.Location=new Point(-25000,-25000);f.ShowInTaskbar=false;f.Show();Application.DoEvents();Check(Campo<ComboBox>(f,"perfil").Items.Count==2,"solo dos perfiles predefinidos");Check(Campo<ComboBox>(f,"perfil").SelectedIndex==-1,"perfil requiere selección explícita");Check(Campo<TextBox>(f,"clave").UseSystemPasswordChar && Campo<TextBox>(f,"confirmar").UseSystemPasswordChar,"claves iniciales ocultas");Check(!Campo<Button>(f,"crear").Enabled,"vista previa no escribe usuarios");

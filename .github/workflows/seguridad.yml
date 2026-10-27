@@ -1,0 +1,36 @@
+name: Seguridad
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    env:
+      GYM_TEST_CONNECTION_STRING: ''
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Secretos en historial
+        shell: pwsh
+        run: ./tools/Verificar-Secretos.ps1
+      - name: Datos privados en fuentes
+        run: python tools/verificar_privacidad.py
+      - name: Restauración bloqueada y auditoría NuGet
+        shell: pwsh
+        run: |
+          $vswhere="${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $msbuild=& $vswhere -latest -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
+          if(-not $msbuild){throw 'No se encontró MSBuild.'}
+          & $msbuild CapaIU.sln /t:Restore /p:SecurityAudit=true /m:1 /nr:false /v:minimal /nologo
+          if($LASTEXITCODE -ne 0){throw 'No se aprobó la auditoría/restauración de dependencias.'}
+      - name: Casos de uso y regresiones de seguridad
+        shell: pwsh
+        run: ./Tests/EjecutarPruebas.ps1
+      - name: Perfiles y formularios
+        shell: pwsh
+        run: ./Tests/ProbarPerfiles.ps1
+      - name: Comparación de avisos
+        run: python -m unittest discover -s tools -p 'test_*.py'

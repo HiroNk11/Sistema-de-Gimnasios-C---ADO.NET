@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,7 +11,13 @@ namespace CapaRepositorio
             string value = Environment.GetEnvironmentVariable("GYM_CONNECTION_STRING");
             if (string.IsNullOrWhiteSpace(value)) value = ConfigurationManager.ConnectionStrings["cadena_conexion"] == null ? null : ConfigurationManager.ConnectionStrings["cadena_conexion"].ConnectionString;
             if (string.IsNullOrWhiteSpace(value)) throw new InvalidOperationException("Configure la conexión a SQL Server.");
-            return new SqlConnectionStringBuilder(value).ConnectionString;
+            var builder = new SqlConnectionStringBuilder(value);
+            bool local = builder.DataSource.StartsWith(@"(localdb)\", StringComparison.OrdinalIgnoreCase);
+            if (!local && (!builder.Encrypt || builder.TrustServerCertificate))
+                throw new InvalidOperationException("SQL remoto requiere Encrypt=True y TrustServerCertificate=False.");
+            builder.PersistSecurityInfo = false;
+            if (builder.ConnectTimeout == 0 || builder.ConnectTimeout > 30) builder.ConnectTimeout = 15;
+            return builder.ConnectionString;
         }
         public DataTable Leer(string procedimiento, SqlParameter[] parametros)
         {

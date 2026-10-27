@@ -1,4 +1,4 @@
-﻿using CapaAplicacion;
+using CapaAplicacion;
 using CapaAplicacion.Negocio;
 using CapaInterfaces.INTERFACES;
 using CapaServicios;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
+
 using System.IO;
 namespace CapaIU.Negocio
 {
@@ -74,56 +74,31 @@ namespace CapaIU.Negocio
 
         private void btnimprimir_Click(object sender, EventArgs e)
         {
-            SaveFileDialog savefile = new SaveFileDialog();
-            savefile.FileName = string.Format("{0}.pdf", DateTime.Now.ToString("ddMMyyyyHHmmss"));
-            string PaginaHTML_Texto = Properties.Resources.HTML.ToString();
-            PaginaHTML_Texto = PaginaHTML_Texto.Replace("@Cliente", cmbseleccionarsocio.Text);
-            PaginaHTML_Texto = PaginaHTML_Texto.Replace("@FECHA", DateTime.Now.ToString("dd/MM/yyyy"));
-            string filas = string.Empty;
-            foreach (DataGridViewRow row in grillaclases.Rows)
+            using (var destino = new SaveFileDialog { Filter="PDF (*.pdf)|*.pdf", DefaultExt="pdf", AddExtension=true, FileName="Clases-"+DateTime.Now.ToString("yyyyMMdd-HHmmss")+".pdf" })
             {
-                filas += "<tr>";
-                filas += "<td>" + row.Cells["Descripcion_Clase"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["Actividad"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["Nivel"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["Descripcion_Piso"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["Dia"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["Horario"].Value.ToString() + "</td>";
-                filas += "</tr>";
-
-            }
-            PaginaHTML_Texto = PaginaHTML_Texto.Replace("@FILAS", filas);
-            if (savefile.ShowDialog() == DialogResult.OK)
-            {
-                using (FileStream stream = new FileStream(savefile.FileName, FileMode.Create))
+                if (destino.ShowDialog(this) != DialogResult.OK) return;
+                try
                 {
-                    //Creamos un nuevo documento y lo definimos como PDF
-                    Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
-
-                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-                    pdfDoc.Open();
-                    pdfDoc.Add(new Phrase(""));
-
-                    //Agregamos la imagen del banner al documento
-                    iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(Properties.Resources.shop, System.Drawing.Imaging.ImageFormat.Png);
-                    img.ScaleToFit(60, 60);
-                    img.Alignment = iTextSharp.text.Image.UNDERLYING;
-
-                    //img.SetAbsolutePosition(10,100);
-                    img.SetAbsolutePosition(pdfDoc.LeftMargin, pdfDoc.Top - 60);
-                    pdfDoc.Add(img);
-
-
-                    //pdfDoc.Add(new Phrase("Hola Mundo"));
-                    using (StringReader sr = new StringReader(PaginaHTML_Texto))
+                    using (var stream = new FileStream(destino.FileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                    using (var documento = new Document(PageSize.A4.Rotate(), 25, 25, 25, 25))
                     {
-                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                        PdfWriter.GetInstance(documento, stream);
+                        documento.Open();
+                        documento.Add(new Paragraph("Clases del socio"));
+                        documento.Add(new Paragraph(cmbseleccionarsocio.Text));
+                        documento.Add(new Paragraph(DateTime.Today.ToString("dd/MM/yyyy")));
+                        var tabla = new PdfPTable(6) { WidthPercentage=100, SpacingBefore=15 };
+                        string[] columnas={"Descripcion_Clase","Actividad","Nivel","Descripcion_Piso","Dia","Horario"};
+                        foreach(string titulo in new[]{"Clase","Actividad","Nivel","Piso","Día","Horario"})tabla.AddCell(new Phrase(titulo));
+                        tabla.HeaderRows=1;
+                        foreach(DataGridViewRow fila in grillaclases.Rows)
+                            if(!fila.IsNewRow)foreach(string columna in columnas)
+                                tabla.AddCell(new Phrase(Convert.ToString(fila.Cells[columna].Value)));
+                        documento.Add(tabla);
+                        documento.Close();
                     }
-
-                    pdfDoc.Close();
-                    stream.Close();
                 }
-
+                catch(Exception ex) { CapaIU.Program.Error(ex); }
             }
         }
     }

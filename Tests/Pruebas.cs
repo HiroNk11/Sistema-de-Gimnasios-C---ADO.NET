@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -128,7 +128,7 @@ class Pruebas
             Check(!Encriptador.Verify("Contrasena segura ☀ 2026",hash),"Unicode no se degrada a ASCII");
             foreach(string malformed in new[]{"","MD5-antiguo","PBKDF2$1$a$b","PBKDF2$600000$???$???","PBKDF2$99999999$a$b"})Check(!Encriptador.Verify(clave,malformed),"hash inválido rechazado");
             Check(!Encriptador.Verify(null,hash),"clave nula rechazada");Check(!Encriptador.Verify(new string('a',129),hash),"límite de longitud al verificar");
-            Rechaza<ArgumentException>(()=>Encriptador.Hash("corta"),"mínimo de 12 caracteres");Rechaza<ArgumentException>(()=>Encriptador.Hash(new string('a',129)),"máximo de 128 caracteres");
+            Rechaza<ArgumentException>(()=>Encriptador.Hash("corta"),"mínimo de 15 caracteres");Rechaza<ArgumentException>(()=>Encriptador.Hash(new string('a',129)),"máximo de 128 caracteres");
             string token=Encriptador.Token();Check(Convert.FromBase64String(token).Length==24,"token con 192 bits aleatorios");Check(token!=Encriptador.Token(),"tokens diferentes");
             Check(Encriptador.TokenHash(token)==Encriptador.TokenHash(token),"hash de token estable");Check(Encriptador.TokenHash(token)!=Encriptador.TokenHash(token+"x"),"hash de token sensible al contenido");
             Rechaza<UnauthorizedAccessException>(()=>Autorizacion.Exigir(TipoPermiso.PuedeAccederANegocio),"operación sin sesión rechazada");
@@ -140,7 +140,29 @@ class Pruebas
             Rechaza<InvalidOperationException>(()=>new SocioRepository().Borrar_socioclase(new Socio_Clase()),"borrado masivo por fecha deshabilitado");
             Rechaza<ArgumentException>(()=>new BackupRestoreRepository().Restore("archivo.txt"),"restauración requiere archivo bak");
             string previous=Environment.GetEnvironmentVariable("GYM_CONNECTION_STRING");
-            try {Environment.SetEnvironmentVariable("GYM_CONNECTION_STRING","Data Source=test;Initial Catalog=GymTests_Config;Integrated Security=True");Check(new SqlConnectionStringBuilder(new AccesoRepository().GetConnectionString()).InitialCatalog=="GymTests_Config","conexión configurable por entorno");}
+            try {Environment.SetEnvironmentVariable("GYM_CONNECTION_STRING","Data Source=test;Initial Catalog=GymTests_Config;Integrated Security=True;Encrypt=True;TrustServerCertificate=False");Check(new SqlConnectionStringBuilder(new AccesoRepository().GetConnectionString()).InitialCatalog=="GymTests_Config","conexión configurable por entorno");}
+            finally {Environment.SetEnvironmentVariable("GYM_CONNECTION_STRING",previous);}
+            Check(Encriptador.TokenValido(token,Encriptador.TokenHash(token)),"token correcto validado");
+            Check(!Encriptador.TokenValido(token+"x",Encriptador.TokenHash(token)),"token incorrecto rechazado");
+            Check(!Encriptador.TokenValido(new string('a',129),Encriptador.TokenHash(token)),"token excesivo rechazado");
+            Check(!Encriptador.Verify(clave,new string('a',257)),"hash excesivo rechazado antes de parsear");
+            Rechaza<ArgumentException>(()=>Encriptador.Hash(new string('a',14)),"clave de catorce caracteres rechazada");
+            Rechaza<ArgumentException>(()=>Encriptador.Hash("passwordpassword"),"clave común rechazada");
+            string emoji=string.Concat(Enumerable.Repeat(char.ConvertFromUtf32(0x1F642),14));
+            Rechaza<ArgumentException>(()=>Encriptador.Hash(emoji),"Unicode cuenta caracteres y no pares UTF16");
+            Encriptador.ValidarPassword(emoji+"a");Check(true,"Unicode de quince caracteres permitido");
+            Rechaza<UnauthorizedAccessException>(()=>new UsuarioBLL().GetEmail("prueba@example.invalid"),"consulta de correo requiere permiso");
+            Rechaza<UnauthorizedAccessException>(()=>new UsuarioBLL().GetAll(),"listado de usuarios requiere permiso");
+            try
+            {
+                Environment.SetEnvironmentVariable("GYM_CONNECTION_STRING","Data Source=test;Initial Catalog=GymTests_Config;Integrated Security=True;Encrypt=False");
+                Rechaza<InvalidOperationException>(()=>new AccesoRepository().GetConnectionString(),"SQL remoto sin TLS rechazado");
+                Environment.SetEnvironmentVariable("GYM_CONNECTION_STRING","Data Source=test;Initial Catalog=GymTests_Config;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
+                Rechaza<InvalidOperationException>(()=>new AccesoRepository().GetConnectionString(),"SQL remoto con bypass de certificado rechazado");
+                Environment.SetEnvironmentVariable("GYM_CONNECTION_STRING",@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GymTests_Config;Integrated Security=True;Encrypt=False;Persist Security Info=True;Connect Timeout=0");
+                var segura=new SqlConnectionStringBuilder(new AccesoRepository().GetConnectionString());
+                Check(!segura.PersistSecurityInfo&&segura.ConnectTimeout==15,"LocalDB conserva excepción local y limita conexión");
+            }
             finally {Environment.SetEnvironmentVariable("GYM_CONNECTION_STRING",previous);}
             Check(Enum.IsDefined(typeof(TipoPermiso),"PuedeAccederBackup"),"nombre de permiso Backup del script original");
             Check(Enum.IsDefined(typeof(TipoPermiso),"PuedeAccederRestore"),"nombre de permiso Restore del script original");

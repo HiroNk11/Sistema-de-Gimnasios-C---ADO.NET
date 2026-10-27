@@ -18,3 +18,13 @@ EntornosPrueba/
 __pycache__/
 Tests/modelo_proyectado.sql
 Tests/vistas/
+
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.pem
+*.key
+*.local.config
+*.local.json
+artifacts/

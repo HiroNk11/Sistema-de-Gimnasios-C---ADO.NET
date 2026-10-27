@@ -1,4 +1,4 @@
-﻿using LogIn;
+using LogIn;
 using System;
 using System.IO;
 using System.Data.SqlClient;
@@ -29,7 +29,7 @@ namespace CapaIU
                 string causa;
                 string texto=sqlError.Message.ToLowerInvariant();
                 if(texto.Contains("certificate") || texto.Contains("certificado") || texto.Contains("ssl") || texto.Contains("tls"))
-                    causa="Falló la conexión cifrada con SQL Server. Revise el certificado de la instancia configurada; en LocalDB de pruebas puede usar TrustServerCertificate=True.";
+                    causa="Falló la conexión cifrada con SQL Server. Revise el certificado de la instancia configurada; no desactive la validación del certificado en un servidor remoto.";
                 else if(sqlError.Number==4060)
                     causa="No se puede abrir la base configurada. Compruebe que DatabaseGym_Mejorado exista en esa instancia y que su usuario Windows tenga acceso.";
                 else if(sqlError.Number==18456)

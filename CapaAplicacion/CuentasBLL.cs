@@ -15,7 +15,7 @@ namespace CapaAplicacion
             if(u.usuario.Length>50 || u.nombre.Length>50 || u.apellido.Length>50 || u.email.Length>254)throw new ArgumentException("Revisá la longitud de los datos.");
             try{var correo=new MailAddress(u.email);if(correo.Address!=u.email)throw new FormatException();}catch(Exception){throw new ArgumentException("Ingresá un correo válido.");}
             CuentasRepository.NombrePerfil(perfil);
-            if(string.IsNullOrWhiteSpace(clave) || clave.Length<12 || clave.Length>128)throw new ArgumentException("La clave inicial debe tener de 12 a 128 caracteres.");
+            Encriptador.ValidarPassword(clave);
             if(clave!=confirmacion)throw new ArgumentException("Las contraseñas no coinciden.");
         }
         public void Crear(Usuario usuario,PerfilCuenta perfil,string clave,string confirmacion)

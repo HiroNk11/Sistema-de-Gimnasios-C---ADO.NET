@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
  [string]$Servidor='(localdb)\MSSQLLocalDB',
  [ValidatePattern('^[A-Za-z][A-Za-z0-9_]{0,100}$')][string]$Base='DatabaseGym_Mejorado',
@@ -12,7 +12,7 @@ $null=New-Object System.Net.Mail.MailAddress($Correo)
 $release=Join-Path $PSScriptRoot '..\CapaIU\bin\Release'
 Add-Type -Path (Join-Path $release 'CapaInterfaces.INTERFACES.dll')
 Add-Type -Path (Join-Path $release 'CapaServicios.dll')
-$secret=Read-Host 'Contraseña del nuevo administrador (12 a 128 caracteres)' -AsSecureString
+$secret=Read-Host 'Contraseña del nuevo administrador (15 a 128 caracteres)' -AsSecureString
 $confirm=Read-Host 'Repetir contraseña' -AsSecureString
 $first=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret)
 $second=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($confirm)

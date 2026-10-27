@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -25,7 +25,7 @@ namespace CapaIU
             perfil.DisplayMember="Key";perfil.ValueMember="Value";perfil.DataSource=new[]{new KeyValuePair<string,PerfilCuenta>("Recepción",PerfilCuenta.Recepcion),new KeyValuePair<string,PerfilCuenta>("Administración de cuentas",PerfilCuenta.AdministracionDeCuentas)};perfil.SelectedIndex=-1;
             clave.UseSystemPasswordChar=confirmar.UseSystemPasswordChar=true;
             ficha.Controls.Add(TemaVisual.Campo("Nombre de usuario",usuario),0,0);ficha.Controls.Add(TemaVisual.Campo("Perfil",perfil),1,0);ficha.Controls.Add(TemaVisual.Campo("Nombre",nombre),0,1);ficha.Controls.Add(TemaVisual.Campo("Apellido",apellido),1,1);ficha.Controls.Add(TemaVisual.Campo("Correo",correo),0,2);
-            ficha.Controls.Add(TemaVisual.Campo("Clave inicial de 12 a 128 caracteres",clave),0,3);ficha.Controls.Add(TemaVisual.Campo("Repetir clave inicial",confirmar),1,3);
+            ficha.Controls.Add(TemaVisual.Campo("Clave inicial de 15 a 128 caracteres",clave),0,3);ficha.Controls.Add(TemaVisual.Campo("Repetir clave inicial",confirmar),1,3);
             var ayuda=TemaVisual.Etiqueta("La persona deberá cambiar la clave inicial al ingresar. Entregala por un canal privado. No se envían correos.",10);ayuda.MaximumSize=new Size(850,0);ficha.Controls.Add(ayuda,0,4);ficha.SetColumnSpan(ayuda,2);ficha.Controls.Add(crear,0,5);
             var regla=TemaVisual.Etiqueta("Administración solo crea cuentas. Recepción gestiona socios, membresías, cobros, actividades, horarios, reservas y asistencia.",10);regla.MaximumSize=new Size(850,0);regla.Margin=new Padding(0,20,0,0);ficha.Controls.Add(regla,0,6);ficha.SetColumnSpan(regla,2);
             crear.Enabled=!preview;crear.Click+=async(s,e)=>await Ejecutar(async()=>{

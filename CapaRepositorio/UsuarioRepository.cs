@@ -1,4 +1,4 @@
-﻿using CapaDominio;
+using CapaDominio;
 using CapaServicios;
 using CapaServicios.Composite;
 using CapaServicios.DV;
@@ -274,34 +274,19 @@ namespace CapaRepositorio
 
         public string recoverUser(string userRequesting)
         {
-            string userName;
-            string usuario;
-            var cnn = new SqlConnection(AR.GetConnectionString());
-            cnn.Open();
-            var cmd = new SqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandText = "Select * from Usuario where Email=@mail";
-            cmd.Parameters.AddWithValue("@mail", userRequesting);
-            cmd.CommandType = CommandType.Text;
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read() == true)
+            const string respuesta = "Si el correo corresponde a una cuenta, recibirá un mensaje con su usuario.";
+            string usuario = null, correo = null;
+            using (var cn = new SqlConnection(AR.GetConnectionString()))
+            using (var cmd = new SqlCommand("SELECT TOP(2) LoginName,Email FROM dbo.Usuario WHERE Email=@mail", cn))
             {
-                userName = reader.GetString(4) + ", " + reader.GetString(5);
-                usuario = reader.GetString(2);
-                string userMail = reader.GetString(6);
-                var mailService = new CapaServicios.ServicesMail.SystemSupportMail();
-                mailService.sendEmail(
-                    subject: "SISTEMA: RECUPERACION DE USUARIO",
-                    body: "Hola " + userName + "\nSolicitaste recuperar tu usuario\n"
-                    + "Usuario: " + usuario + "\n",
-                    recipienteMail: new List<string> { userMail }
-
-                    );
-
-                return "Enviamos a tu correo tu nombre de usuario, revisa tu bandeja de entrada";
+                cmd.Parameters.Add("@mail", SqlDbType.NVarChar, 254).Value = userRequesting;
+                cn.Open(); using (var reader = cmd.ExecuteReader())
+                    if (reader.Read()) { usuario = Convert.ToString(reader[0]); correo = Convert.ToString(reader[1]); if (reader.Read()) return respuesta; }
             }
-            else return "Disculpe, este email no está registrado en el sistema";
+            if (usuario != null)
+                try { new CapaServicios.ServicesMail.SystemSupportMail().sendEmail("Recuperación de usuario", "Su usuario es: " + usuario, new List<string> { correo }); }
+                catch(Exception ex) { System.Diagnostics.Trace.TraceWarning("Recuperación: envío no completado; tipo {0}; HResult {1}.",ex.GetType().Name,ex.HResult); }
+            return respuesta;
         }
         public string GenerarCodigo() { return Encriptador.Token(); }
 

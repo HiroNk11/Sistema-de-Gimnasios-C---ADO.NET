@@ -1,4 +1,4 @@
-﻿using CapaDominio;
+using CapaDominio;
 using CapaRepositorio;
 using CapaServicios;
 using System;
@@ -32,7 +32,7 @@ namespace CapaAplicacion
         public string Login(string usu, string pass)
         {
             if (SingletonSesion.Instancia.IsLogged()) throw new InvalidOperationException("Ya hay una sesión iniciada.");
-            if (string.IsNullOrWhiteSpace(usu) || string.IsNullOrEmpty(pass)) return "Ingrese usuario y contraseña.";
+            if (string.IsNullOrWhiteSpace(usu) || string.IsNullOrEmpty(pass) || usu.Length > 50 || pass.Length > 128) return "Ingrese usuario y contraseña.";
             IntentosLogin.Validar(usu);
             var u = mapperrepo.GetByUserName(usu.Trim());
             string hash = u == null ? null : new CredencialRepository().Obtener(u.idusuario);
@@ -100,15 +100,17 @@ namespace CapaAplicacion
         }
         public DataTable Buscar_User(Usuario u)
         {
+            Autorizacion.Exigir(TipoPermiso.PuedeGestionarUsuarios);
             return mapperrepo.Buscar_User(u);
         }
         public List<PermisoUsuario> GetAll()
         {
+            Autorizacion.ExigirCualquiera(TipoPermiso.PuedeGestionarUsuarios,TipoPermiso.PuedeConfigurarSeguridadUsuarios,TipoPermiso.PuedeAccederBitacora);
             return mapperrepo.GetAll();
         }
         public string recoverPasswrod(string userRequesting)
         {
-            if (string.IsNullOrWhiteSpace(userRequesting)) throw new ArgumentException("Ingrese usuario o correo.");
+            if (string.IsNullOrWhiteSpace(userRequesting) || userRequesting.Length > 254) throw new ArgumentException("Ingrese usuario o correo.");
             IntentosLogin.Validar("recuperacion:" + userRequesting);
             IntentosLogin.Fallar("recuperacion:" + userRequesting);
             return new CredencialRepository().Solicitar(userRequesting.Trim());
@@ -141,21 +143,27 @@ namespace CapaAplicacion
 
         public string GetUserName(string username)
         {
+            Autorizacion.Exigir(TipoPermiso.PuedeGestionarUsuarios);
             return mapperrepo.GetUserName(username);
         }
 
         public string GetEmail(string email)
         {
+            Autorizacion.Exigir(TipoPermiso.PuedeGestionarUsuarios);
             return mapperrepo.GetEmail(email);
         }
 
         public string GetUserNameByUserOrEmail(string userRequesting)
         {
+            Autorizacion.Exigir(TipoPermiso.PuedeGestionarUsuarios);
             return mapperrepo.GetUserNameByUserOrEmail(userRequesting);
         }
         public string recoverUser(string userRequesting)
         {
-            return mapperrepo.recoverUser(userRequesting);
+            if (string.IsNullOrWhiteSpace(userRequesting) || userRequesting.Length > 254) throw new ArgumentException("Ingrese un correo válido.");
+            IntentosLogin.Validar("usuario:" + userRequesting);
+            IntentosLogin.Fallar("usuario:" + userRequesting);
+            return mapperrepo.recoverUser(userRequesting.Trim());
         }
 
         public List<int> VerificarDigitosPorId() { return mapperrepo.VerificarDigitosPorId(); }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -18,7 +18,8 @@ namespace CapaServicios.ServicesMail
         protected bool ssl { get; set; }
         protected void initializeSmtPCliente()
         {
-            smtpCliente = new SmtpClient();
+            if(!ssl) throw new InvalidOperationException("SMTP requiere STARTTLS.");
+            smtpCliente = new SmtpClient { Timeout=15000, UseDefaultCredentials=false, DeliveryMethod=SmtpDeliveryMethod.Network };
             smtpCliente.Credentials = new NetworkCredential(senderMail, password);
             smtpCliente.Host = host;
             smtpCliente.Port = port;
