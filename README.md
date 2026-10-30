@@ -4,6 +4,15 @@ Sistema de gestión de gimnasios en C#, Windows Forms y ADO.NET, con SQL Server.
 
 Incluye calendario semanal con participantes por sesión, indicadores en Inicio y acceso a saldos pendientes. Ver [guía de monitoreo](GUIA_MONITOREO.md).
 
+## Recorrido funcional
+
+1. Registrar un socio y asignarle una membresía.
+2. Registrar el pago y consultar los saldos pendientes.
+3. Planificar una sesión con profesor, actividad y horario.
+4. Reservar un lugar, consultar los participantes y registrar asistencia.
+
+La [muestra de pruebas](Database/Demo/LEEME.md) permite explorar estos flujos con datos separados de la operación habitual.
+
 ## Requisitos
 
 - Windows y Visual Studio con desarrollo de escritorio .NET y herramientas de .NET Framework 4.7.2.
@@ -93,3 +102,4 @@ Consultar [auditoría de seguridad](AUDITORIA-SEGURIDAD.md),
 [privacidad e historial](AUDITORIA-PRIVACIDAD.md), [reporte privado](SECURITY.md) y el
 [manual editable sin datos de instalación](docs/ManualUsuario.md). La aplicación también
 incluye su PDF actualizado. Las conexiones SQL remotas exigen un certificado válido.
+
