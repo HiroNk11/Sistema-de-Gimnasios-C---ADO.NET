@@ -28,3 +28,11 @@ Tests/vistas/
 *.local.config
 *.local.json
 artifacts/
+
+# Private configuration and generated files
+bin/
+obj/
+node_modules/
+dist/
+*.pyc
+!.env.*.example
